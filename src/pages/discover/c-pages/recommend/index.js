@@ -1,24 +1,29 @@
-import React, { memo, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { memo} from "react";
 
-import { getTopBannerAction } from "./store/actionCreators";
+import FGQTopBanner  from './c-cpns/top-banner'
+import FGQHotRecommend from './c-cpns/hot-recommend'
+import FGQNewAlbum from './c-cpns/new-album'
+import FGQRecommendRanking from './c-cpns/recommend-ranking'
+import { 
+  RecommendWrapper,
+  Content,
+  RecommendLeft,
+  RecommendRight
+} from './style';
 
 function FGQrecommend(props) {
-  // 组件和redux关联：获取数据和进行操作
-  const { topBanners } = useSelector((state) => ({
-    topBanners: state.recommend.topBanners,
-  }));
-  const dispatch = useDispatch();
-
-  // 发送网络请求
-  useEffect(() => {
-    dispatch(getTopBannerAction());
-  }, [dispatch]);
-
   return (
-    <div>
-      <h2>FGQrecommend:{topBanners.length}</h2>
-    </div>
+    <RecommendWrapper>
+      <FGQTopBanner/>
+      <Content className="wrap-v2">
+        <RecommendLeft>
+          <FGQHotRecommend></FGQHotRecommend>
+          <FGQNewAlbum/>
+          <FGQRecommendRanking/>
+        </RecommendLeft>
+        <RecommendRight></RecommendRight>
+      </Content>
+    </RecommendWrapper>
   );
 }
 

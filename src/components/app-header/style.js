@@ -5,6 +5,7 @@ export const HeaderWrapper = styled.div`
   font-size:14px;
   background-color:#242424;
   color:#fff;
+  width:auto;
 
   .content{
     height:70px;
