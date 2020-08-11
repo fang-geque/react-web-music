@@ -31,7 +31,7 @@ const FGQThemeHeaderRCM =  memo(function (props) {
   )
 })
 
-FGQThemeHeaderRCM.PropTypes={
+FGQThemeHeaderRCM.propTypes={
   title: PropTypes.string.isRequired,
   keywords: PropTypes.array
 }
