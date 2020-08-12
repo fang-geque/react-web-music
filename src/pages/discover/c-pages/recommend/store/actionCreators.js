@@ -3,7 +3,8 @@ import * as actionTypes from "./constants";
 import { 
   getTopBanners,
   getHotRecommends,
-  getNewAlbums
+  getNewAlbums,
+  getTopList
 } from "@/services/recommend";
 
 const changeTopBannerAction = (res) =>({
@@ -21,6 +22,20 @@ const changeNewAlbumAction = (res) => ({
   newAlbums: res.albums
 })
 
+const changeUpRankAction = (res) => ({
+  type:actionTypes.CHANGE_UP_RANKING,
+  upRanking:res.playlist
+})
+
+const changeNewRankAction = (res) => ({
+  type:actionTypes.CHANGE_NEW_RANKING,
+  newRanking:res.playlist
+})
+
+const changeOriginRankAction = (res) => ({
+  type:actionTypes.CHANGE_ORIGIN_RANKING,
+  originRanking:res.playlist
+})
 
 export const getTopBannerAction = () => {
   return (dispatch) => {
@@ -43,6 +58,19 @@ export const getNewAlbumAction = (limit) => {
     getNewAlbums(limit).then(res => {
       // const albums = res.albums;
       dispatch(changeNewAlbumAction(res));
+    })
+  }
+}
+
+export const getTopListAction = (idx) => {
+  return dispatch => {
+    getTopList(idx).then(res => {
+      const sourceMap = {
+        0 : changeUpRankAction(res),
+        2 : changeNewRankAction(res),
+        3 : changeOriginRankAction(res),
+      }
+      dispatch(sourceMap[idx])
     })
   }
 }

@@ -23,3 +23,13 @@ export function getNewAlbums(limit) {
     }
   })
 }
+
+// 排行榜数据
+export function getTopList(idx) {
+  return request({
+    url: "/top/list",
+    params :{
+      idx
+    }
+  })
+}
