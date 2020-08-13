@@ -12,6 +12,7 @@ import FGQSongs from "../pages/discover/c-pages/songs";
 import FGQDjradio from "../pages/discover/c-pages/djradio";
 import FGQArtist from "../pages/discover/c-pages/artist";
 import FGQAlbum from "../pages/discover/c-pages/album";
+import FGQPlayer from "../pages/player";
 
 const routes = [
   {
@@ -56,6 +57,10 @@ const routes = [
       {
         path: "/discover/album",
         component: FGQAlbum
+      },
+      {
+        path: "/discover/player",
+        component: FGQPlayer
       }
     ]
   },

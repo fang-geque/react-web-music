@@ -1,50 +1,110 @@
-import React, { memo, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { memo, useEffect, useRef, useState, useCallback } from "react";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 import { Slider } from "antd";
 
+import { getSizeImage, formatDate, getPlaySong } from "@/utils/format-utils"
 import { PlaybarWrapper, Control, PlayInfo, Operator } from "./style";
 import { getSongDetailAction } from "../store/actionCreators";
 
+
 export default memo(function FGQAppPlayerBar() {
+  // props and state
+  const [currentTime, setCurrentTime] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [isChangeing, setIsChangeing] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+
   // redux hooks
+  const {currentSong} = useSelector(state => ({
+    currentSong: state.getIn(['player','currentSong'])
+  }),shallowEqual)
   const dispatch = useDispatch();
 
   // other hooks
+  const audioRef = useRef();
   useEffect(() => {
     dispatch(getSongDetailAction(1469628663));
   }, [dispatch]);
+  useEffect(() => {
+    audioRef.current.src = getPlaySong(currentSong.id);
+  }, [currentSong]);
+
+  // other handle
+  const picUrl = (currentSong.al && currentSong.al.picUrl) || "";
+  const singerName = (currentSong.ar && currentSong.ar[0].name) || "未知歌手";
+  const duration = (currentSong.dt || 0);
+  const showDuration = formatDate(duration, "mm:ss")
+  const showCurrentTime = formatDate(currentTime, "mm:ss");
+
+
+  // handle function
+  const PlayMusic = useCallback(() => {
+    isPlaying ? audioRef.current.pause(): audioRef.current.play();
+    setIsPlaying(!isPlaying);
+  }, [isPlaying]);
+
+  const timeUpdata = (e) => {
+    // console.dir(e.target.currentTime);
+    // console.dir(duration);
+    if (!isChangeing){
+      setCurrentTime(e.target.currentTime * 1000);
+      setProgress(currentTime / duration * 100);
+    }
+   
+  }
+
+  const slideChange = useCallback((value) => {
+    setIsChangeing(true);
+    const currentTime = value / 100 * duration;
+    setCurrentTime(currentTime);
+    setProgress(value)
+  },[duration]);
+
+  const slideAfterChange =  useCallback((value)=>{
+    const currentTime = value / 100 * duration / 1000;
+    audioRef.current.currentTime = currentTime;
+    setCurrentTime(currentTime * 1000);
+    setIsChangeing(false);
+
+    if (!isPlaying) {
+      PlayMusic()
+    }
+  },[duration, isPlaying, PlayMusic]);
 
   return (
     <PlaybarWrapper className="sprite_player">
       <div className="content wrap-v2">
-        <Control>
+        <Control isPlaying={isPlaying}>
           <button className="sprite_player prev"></button>
-          <button className="sprite_player play"></button>
+          <button className="sprite_player play" onClick={e => PlayMusic()}></button>
           <button className="sprite_player next"></button>
         </Control>
         <PlayInfo>
           <div className="image">
-            <a href="/#">
+            <NavLink to="/discover/player">
               <img
-                src="https://p2.music.126.net/wcMr7kNgiasF1TljEqqRhQ==/109951165219432045.jpg?param=34y34"
+                src={getSizeImage(picUrl, 35)}
                 alt=""
               />
-            </a>
+            </NavLink>
           </div>
           <div className="info">
             <div className="song">
-              <span className="song-name">红豆</span>
-              <a href="#/" className="singer-name">
-                要不要买菜
-              </a>
+              <span className="song-name">{currentSong.name}</span>
+              <a href="#/" className="singer-name">{singerName}</a>
             </div>
             <div className="progress">
-              <Slider defaultValue={30}></Slider>
+              <Slider 
+                value={progress}
+                defaultValue={0}
+                onChange={slideChange}
+                onAfterChange={slideAfterChange}></Slider>
               <div className="time">
-                <span className="now-time">02:30</span>
+                <span className="now-time">{showCurrentTime}</span>
                 <span className="divider">/</span>
-                <span className="divider">04:30</span>
+                <span className="divider">{showDuration}</span>
               </div>
             </div>
           </div>
@@ -61,6 +121,7 @@ export default memo(function FGQAppPlayerBar() {
           </div>
         </Operator>
       </div>
+      <audio ref={audioRef} onTimeUpdate={timeUpdata}/>
     </PlaybarWrapper>
   );
 });
