@@ -8,3 +8,13 @@ export function getSongDetail(ids) {
     }
   })
 }
+
+// 请求歌词相关
+export function getLyric(id){
+  return request({
+    url : "/lyric",
+    params: {
+      id
+    }
+  })
+}
