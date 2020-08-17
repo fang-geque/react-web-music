@@ -2,7 +2,7 @@ import React, { memo, useEffect, useRef, useState, useCallback } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { NavLink } from "react-router-dom";
 
-import { Slider } from "antd";
+import { Slider, message } from "antd";
 
 import { getSizeImage, formatDate, getPlaySong } from "@/utils/format-utils";
 import { PlaybarWrapper, Control, PlayInfo, Operator } from "./style";
@@ -10,20 +10,28 @@ import {
   getSongDetailAction,
   changeSequenceAction,
   changeCurrentIndexAndSongAction,
+  changeCurrentLyricIndexAction
 } from "../store/actionCreators";
 
 export default memo(function FGQAppPlayerBar() {
   // props and state
   const [currentTime, setCurrentTime] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [isChangeing, setIsChangeing] = useState(false);
+  const [isChanging, setisChanging] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
   // redux hooks
-  const { currentSong, sequence } = useSelector(
+  const { 
+    currentSong,
+    sequence,
+    lyricList, 
+    currentLyricIndex
+  } = useSelector(
     (state) => ({
       currentSong: state.getIn(["player", "currentSong"]),
       sequence: state.getIn(["player", "sequence"]),
+      lyricList : state.getIn(["player", "lyricList"]),
+      currentLyricIndex : state.getIn(["player", "currentLyricIndex"])
     }),
     shallowEqual
   );
@@ -36,12 +44,12 @@ export default memo(function FGQAppPlayerBar() {
   }, [dispatch]);
   useEffect(() => {
     audioRef.current.src = getPlaySong(currentSong.id);
-    isPlaying && audioRef.current.play().then((res) => {
-        setIsPlaying(true);
-      }).catch((err) => {
-        setIsPlaying(false);
-      });
-  }, [currentSong, isPlaying]);
+    audioRef.current.play().then(res => {
+      setIsPlaying(true);
+    }).catch(err => {
+      setIsPlaying(false);
+    });
+  }, [currentSong]);
 
   // other handle
   const picUrl = (currentSong.al && currentSong.al.picUrl) || "";
@@ -56,14 +64,36 @@ export default memo(function FGQAppPlayerBar() {
     setIsPlaying(!isPlaying);
   }, [isPlaying]);
 
-  const timeUpdata = (e) => {
+  const timeUpdate = (e) => {
     // console.dir(e.target.currentTime);
     // console.dir(duration);
-    if (!isChangeing) {
-      setCurrentTime(e.target.currentTime * 1000);
-      setProgress((currentTime / duration) * 100);
+    const currentTime = e.target.currentTime;
+    if (!isChanging) {
+      setCurrentTime(currentTime * 1000);
+      setProgress((currentTime * 1000 / duration) * 100);
+    }
+
+    // 获取当前的歌词
+    let i = 0;
+    for (; i < lyricList.length;i++){
+      let lyricItem = lyricList[i];
+      if (currentTime * 1000 < lyricItem.time){
+        break;
+      }
+    }
+
+    if (currentLyricIndex !== i - 1) {
+      dispatch(changeCurrentLyricIndexAction(i - 1));
+      const content = lyricList[i - 1] && lyricList[i - 1].content
+      message.open({
+        key :"lyric",
+        content: content,
+        duration: 0,
+        className : 'lyric-class'
+      })
     }
   };
+
 
   const changeSequence = () => {
     let currentSequence = sequence + 1;
@@ -88,7 +118,7 @@ export default memo(function FGQAppPlayerBar() {
 
   const slideChange = useCallback(
     (value) => {
-      setIsChangeing(true);
+      setisChanging(true);
       const currentTime = (value / 100) * duration;
       setCurrentTime(currentTime);
       setProgress(value);
@@ -101,7 +131,7 @@ export default memo(function FGQAppPlayerBar() {
       const currentTime = ((value / 100) * duration) / 1000;
       audioRef.current.currentTime = currentTime;
       setCurrentTime(currentTime * 1000);
-      setIsChangeing(false);
+      setisChanging(false);
 
       // if (!isPlaying) {
       //   PlayMusic();
@@ -173,7 +203,7 @@ export default memo(function FGQAppPlayerBar() {
       </div>
       <audio
         ref={audioRef}
-        onTimeUpdate={e => timeUpdata(e)}
+        onTimeUpdate={e => timeUpdate(e)}
         onEnded={e => handleMusicEnded(e)}
       />
     </PlaybarWrapper>
