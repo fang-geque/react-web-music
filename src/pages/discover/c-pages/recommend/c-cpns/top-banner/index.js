@@ -31,8 +31,11 @@ export default memo(function FGQTopBanner() {
   }, [dispatch]);
 
   const bannerChange = useCallback((from,to) => {
-    setCurrentIndex(to)
-  }, [])
+    // setCurrentIndex(to);
+    setTimeout(() => {
+      setCurrentIndex(to);
+    },0);
+  }, []);
 
 
   // 其他业务逻辑
