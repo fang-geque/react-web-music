@@ -4,7 +4,8 @@ import {
   getTopBanners,
   getHotRecommends,
   getNewAlbums,
-  getTopList
+  getTopList,
+  getArtistList
 } from "@/services/recommend";
 
 const changeTopBannerAction = (res) =>({
@@ -35,6 +36,11 @@ const changeNewRankAction = (res) => ({
 const changeOriginRankAction = (res) => ({
   type:actionTypes.CHANGE_ORIGIN_RANKING,
   originRanking:res.playlist
+})
+
+const changeSettleSingsAction = (res) => ({
+  type: actionTypes.CHANGE_SETTLE_SONGER,
+  settleSings: res.artists
 })
 
 export const getTopBannerAction = () => {
@@ -71,6 +77,15 @@ export const getTopListAction = (idx) => {
         3 : changeOriginRankAction(res),
       }
       dispatch(sourceMap[idx])
+    })
+  }
+}
+
+// 入驻歌手
+export const getSettleSingers = () => {
+  return dispath => {
+    getArtistList(5, 5001).then(res => {
+      dispath(changeSettleSingsAction(res))
     })
   }
 }

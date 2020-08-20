@@ -50,3 +50,13 @@ export function formatMinuteSecond(time) {
 export function getPlaySong(id) {
   return `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
 }
+
+
+// 歌手名字展示
+export const showSingerName = function(singerArr){
+  const singerNameList =  singerArr.map((item) => {
+    return item.name
+  });
+  let singerName = singerNameList.join("/")
+  return singerName
+}

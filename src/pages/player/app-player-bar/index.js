@@ -4,7 +4,12 @@ import { NavLink } from "react-router-dom";
 
 import { Slider, message } from "antd";
 
-import { getSizeImage, formatDate, getPlaySong } from "@/utils/format-utils";
+import { 
+  getSizeImage, 
+  formatDate, 
+  getPlaySong,
+  showSingerName 
+} from "@/utils/format-utils";
 import { PlaybarWrapper, Control, PlayInfo, Operator } from "./style";
 import {
   getSongDetailAction,
@@ -13,12 +18,15 @@ import {
   changeCurrentLyricIndexAction
 } from "../store/actionCreators";
 
+import FGQAppPlayPanel from '../app-player-panel'
+
 export default memo(function FGQAppPlayerBar() {
   // props and state
   const [currentTime, setCurrentTime] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isChanging, setisChanging] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showPanel, setShowPanel] = useState(true);
 
   // redux hooks
   const { 
@@ -51,9 +59,10 @@ export default memo(function FGQAppPlayerBar() {
     });
   }, [currentSong]);
 
+
   // other handle
   const picUrl = (currentSong.al && currentSong.al.picUrl) || "";
-  const singerName = (currentSong.ar && currentSong.ar[0].name) || "未知歌手";
+  const singerName = (currentSong.ar && showSingerName(currentSong.ar)) || "未知歌手";
   const duration = currentSong.dt || 0;
   const showDuration = formatDate(duration, "mm:ss");
   const showCurrentTime = formatDate(currentTime, "mm:ss");
@@ -197,7 +206,8 @@ export default memo(function FGQAppPlayerBar() {
               className="sprite_player btn loop"
               onClick={(e) => changeSequence()}
             ></button>
-            <button className="sprite_player btn playlist"></button>
+            <button className="sprite_player btn playlist" 
+                    onClick={e => setShowPanel(!showPanel)}></button>
           </div>
         </Operator>
       </div>
@@ -206,6 +216,7 @@ export default memo(function FGQAppPlayerBar() {
         onTimeUpdate={e => timeUpdate(e)}
         onEnded={e => handleMusicEnded(e)}
       />
+      {showPanel && <FGQAppPlayPanel />}
     </PlaybarWrapper>
   );
 });

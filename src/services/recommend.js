@@ -33,3 +33,14 @@ export function getTopList(idx) {
     }
   })
 }
+
+// 入驻歌手
+export function getArtistList(limit, cat) {
+  return request({
+    url: "/artist/list",
+    params: {
+      cat,
+      limit
+    }
+  })
+}
