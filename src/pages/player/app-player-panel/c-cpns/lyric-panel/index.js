@@ -1,8 +1,9 @@
-import React, { memo, useRef } from 'react'
+import React, { memo, useRef, useEffect } from 'react'
 import { useSelector, shallowEqual } from 'react-redux';
 
 import classNames from 'classnames';
 import { PannelWrapper } from './style';
+import { scrollTo } from '@/utils/ui-helper';
 
 
 export default memo(function FGQLyricPanel() {
@@ -15,6 +16,10 @@ export default memo(function FGQLyricPanel() {
 
   // other hooks
   const panelRef = useRef();
+  useEffect(() => {
+    if (currentLyricIndex > 0 && currentLyricIndex < 3) return
+    scrollTo(panelRef.current, (currentLyricIndex - 3) * 32 ,300)
+  }, [currentLyricIndex])
 
 
   return (

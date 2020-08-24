@@ -1,6 +1,8 @@
 import { 
   getSongDetail,
-  getLyric
+  getLyric,
+  getSimiPlaylist,
+  getSimiSong
  } from "@/services/player";
 import { getRandomNumber } from "@/utils/math-utils";
 import { parseLyric } from '@/utils/parse-lyric';
@@ -27,6 +29,16 @@ const changeCurrentSongIndexAction = (index) => ({
 const changeLyricListAction = (lyricList) => ({
   type: actionTypes.CHANGE_LYRICS_LIST,
   lyricList
+})
+
+const changeSimiPlaylistAction = (res) => ({
+  type: actionTypes.CHANGE_SIMI_PLAYLIST,
+  simiPlaylist: res.playlists
+})
+
+const changeSimiSongsAction = (res) => ({
+  type: actionTypes.CHANGE_SIMI_SONGS,
+  simiSongs: res.songs
 })
 
 //  对外暴露的action
@@ -114,6 +126,28 @@ export const getLyricAction = (id) => {
       const lyric = res.lrc.lyric;
       const lyricList = parseLyric(lyric);
       dispatch(changeLyricListAction(lyricList));
+    })
+  }
+}
+
+export const getSimiPlaylistAction = () => {
+  return (dispatch, getState) => {
+    const id = getState().getIn(["player", "currentSong"]).id;
+    if (!id) return;
+
+    getSimiPlaylist(id).then(res => {
+      dispatch(changeSimiPlaylistAction(res));
+    })
+  }
+}
+
+export const getSimiSongAction = () => {
+  return (dispatch, getState) => {
+    const id = getState().getIn(["player", "currentSong"]).id;
+    if (!id) return;
+
+    getSimiSong(id).then(res => {
+      dispatch(changeSimiSongsAction(res));
     })
   }
 }

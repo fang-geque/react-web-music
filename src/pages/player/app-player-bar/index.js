@@ -26,7 +26,7 @@ export default memo(function FGQAppPlayerBar() {
   const [progress, setProgress] = useState(0);
   const [isChanging, setisChanging] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [showPanel, setShowPanel] = useState(true);
+  const [showPanel, setShowPanel] = useState(false);
 
   // redux hooks
   const { 

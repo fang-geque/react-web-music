@@ -1,5 +1,10 @@
 import React, { memo } from 'react';
 
+import FGQPlayerInfo from './c-cpns/player-info';
+import FGQPlayerComment from './c-cpns/player-comment';
+import FGQPlayerSongs from './c-cpns/player-songs';
+import FGQPlayerRelevant from './c-cpns/player-relevant';
+
 import {
   PlayerWrapper,
   PlayerLeft,
@@ -11,13 +16,12 @@ export default memo(function FGQPlayer() {
     <PlayerWrapper>
       <div className="content wrap-v2">
         <PlayerLeft>
-          <h2>FGQPlayerInfo</h2>
-          <h2>FGQSongContent</h2>
+          <FGQPlayerInfo></FGQPlayerInfo>
+          <FGQPlayerComment></FGQPlayerComment>
         </PlayerLeft>
         <PlayerRight>
-          <h2>FGQSimPlaylist</h2>
-          <h2>FGQSimSong</h2>
-          <h2>Download</h2>
+          <FGQPlayerSongs/>
+          <FGQPlayerRelevant/>
         </PlayerRight>
       </div>
     </PlayerWrapper>
