@@ -4,11 +4,11 @@ import { NavLink } from "react-router-dom";
 
 import { Slider, message } from "antd";
 
-import { 
-  getSizeImage, 
-  formatDate, 
+import {
+  getSizeImage,
+  formatDate,
   getPlaySong,
-  showSingerName 
+  showSingerName
 } from "@/utils/format-utils";
 import { PlaybarWrapper, Control, PlayInfo, Operator } from "./style";
 import {
@@ -29,17 +29,19 @@ export default memo(function FGQAppPlayerBar() {
   const [showPanel, setShowPanel] = useState(false);
 
   // redux hooks
-  const { 
+  const {
     currentSong,
     sequence,
-    lyricList, 
+    lyricList,
+    playList,
     currentLyricIndex
   } = useSelector(
     (state) => ({
       currentSong: state.getIn(["player", "currentSong"]),
       sequence: state.getIn(["player", "sequence"]),
-      lyricList : state.getIn(["player", "lyricList"]),
-      currentLyricIndex : state.getIn(["player", "currentLyricIndex"])
+      playList: state.getIn(["player", "playList"]),
+      lyricList: state.getIn(["player", "lyricList"]),
+      currentLyricIndex: state.getIn(["player", "currentLyricIndex"])
     }),
     shallowEqual
   );
@@ -48,7 +50,7 @@ export default memo(function FGQAppPlayerBar() {
   // other hooks
   const audioRef = useRef();
   useEffect(() => {
-    dispatch(getSongDetailAction(1469628663));
+    dispatch(getSongDetailAction(465921195));
   }, [dispatch]);
   useEffect(() => {
     audioRef.current.src = getPlaySong(currentSong.id);
@@ -68,7 +70,7 @@ export default memo(function FGQAppPlayerBar() {
   const showCurrentTime = formatDate(currentTime, "mm:ss");
 
   // handle function
-  const PlayMusic = useCallback(() => {
+  const playMusic = useCallback(() => {
     isPlaying ? audioRef.current.pause() : audioRef.current.play();
     setIsPlaying(!isPlaying);
   }, [isPlaying]);
@@ -84,9 +86,9 @@ export default memo(function FGQAppPlayerBar() {
 
     // 获取当前的歌词
     let i = 0;
-    for (; i < lyricList.length;i++){
+    for (; i < lyricList.length; i++) {
       let lyricItem = lyricList[i];
-      if (currentTime * 1000 < lyricItem.time){
+      if (currentTime * 1000 < lyricItem.time) {
         break;
       }
     }
@@ -95,10 +97,10 @@ export default memo(function FGQAppPlayerBar() {
       dispatch(changeCurrentLyricIndexAction(i - 1));
       const content = lyricList[i - 1] && lyricList[i - 1].content
       message.open({
-        key :"lyric",
+        key: "lyric",
         content: content,
         duration: 0,
-        className : 'lyric-class'
+        className: 'lyric-class'
       })
     }
   };
@@ -117,7 +119,7 @@ export default memo(function FGQAppPlayerBar() {
   };
 
   const handleMusicEnded = () => {
-    if (sequence === 2){  //单曲循环
+    if (sequence === 2) {  //单曲循环
       audioRef.current.currentTime = 0;
       audioRef.current.play();
     } else {
@@ -142,12 +144,11 @@ export default memo(function FGQAppPlayerBar() {
       setCurrentTime(currentTime * 1000);
       setisChanging(false);
 
-      // if (!isPlaying) {
-      //   PlayMusic();
-      // }
+      if (!isPlaying) {
+        playMusic();
+      }
     },
-    // [duration, isPlaying, PlayMusic]
-    [duration]
+    [duration, isPlaying, playMusic]
   );
 
   return (
@@ -160,7 +161,7 @@ export default memo(function FGQAppPlayerBar() {
           ></button>
           <button
             className="sprite_player play"
-            onClick={(e) => PlayMusic()}
+            onClick={(e) => playMusic()}
           ></button>
           <button
             className="sprite_player next"
@@ -206,8 +207,10 @@ export default memo(function FGQAppPlayerBar() {
               className="sprite_player btn loop"
               onClick={(e) => changeSequence()}
             ></button>
-            <button className="sprite_player btn playlist" 
-                    onClick={e => setShowPanel(!showPanel)}></button>
+            <button className="sprite_player btn playlist"
+              onClick={e => setShowPanel(!showPanel)}>
+              {playList.length}
+            </button>
           </div>
         </Operator>
       </div>

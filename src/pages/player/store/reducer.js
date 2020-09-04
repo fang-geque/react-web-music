@@ -5,6 +5,184 @@ import * as actionTypes from "./constants";
 const defaultState = Map({
   playList: [
     {
+      "name": "还是分开",
+      "id": 465921195,
+      "pst": 0,
+      "t": 0,
+      "ar": [
+      {
+      "id": 12213291,
+      "name": "张叶蕾",
+      "tns": [],
+      "alias": []
+      }
+      ],
+      "alia": [],
+      "pop": 100,
+      "st": 0,
+      "rt": null,
+      "fee": 8,
+      "v": 60,
+      "crbt": null,
+      "cf": "",
+      "al": {
+      "id": 35287063,
+      "name": "还是分开",
+      "picUrl": "https://p2.music.126.net/tH5FdakJX47uy8mlM0GMWQ==/19218363741925314.jpg",
+      "tns": [],
+      "pic_str": "19218363741925314",
+      "pic": 19218363741925310
+      },
+      "dt": 226791,
+      "h": {
+      "br": 320000,
+      "fid": 0,
+      "size": 9073938,
+      "vd": -10900
+      },
+      "m": {
+      "br": 192000,
+      "fid": 0,
+      "size": 5444380,
+      "vd": -8200
+      },
+      "l": {
+      "br": 128000,
+      "fid": 0,
+      "size": 3629601,
+      "vd": -6500
+      },
+      "a": null,
+      "cd": "01",
+      "no": 1,
+      "rtUrl": null,
+      "ftype": 0,
+      "rtUrls": [],
+      "djId": 0,
+      "copyright": 1,
+      "s_id": 0,
+      "mark": 64,
+      "originCoverType": 0,
+      "single": 0,
+      "noCopyrightRcmd": null,
+      "mv": 0,
+      "rtype": 0,
+      "rurl": null,
+      "mst": 9,
+      "cp": 399010,
+      "publishTime": 1488729600007
+    },
+    {
+      "name": "新人王 (Prod.By Mai)",
+      "id": 1475887256,
+      "pst": 0,
+      "t": 0,
+      "ar": [
+      {
+      "id": 35506271,
+      "name": "0-100",
+      "tns": [],
+      "alias": []
+      },
+      {
+      "id": 13145283,
+      "name": "ICE",
+      "tns": [],
+      "alias": []
+      },
+      {
+      "id": 12276375,
+      "name": "NINEONE#",
+      "tns": [],
+      "alias": []
+      },
+      {
+      "id": 12157298,
+      "name": "刘炫廷",
+      "tns": [],
+      "alias": []
+      },
+      {
+      "id": 12357157,
+      "name": "新秀",
+      "tns": [],
+      "alias": []
+      },
+      {
+      "id": 12358200,
+      "name": "Doooboi",
+      "tns": [],
+      "alias": []
+      },
+      {
+      "id": 6309,
+      "name": "Mai",
+      "tns": [],
+      "alias": []
+      },
+      {
+      "id": 12270343,
+      "name": "地下8英里",
+      "tns": [],
+      "alias": []
+      }
+      ],
+      "alia": [],
+      "pop": 100,
+      "st": 0,
+      "rt": "",
+      "fee": 8,
+      "v": 3,
+      "crbt": null,
+      "cf": "",
+      "al": {
+      "id": 94829564,
+      "name": "新人王",
+      "picUrl": "https://p1.music.126.net/stLDI9NGKZWSUfGHSbRFRw==/109951165289539859.jpg",
+      "tns": [],
+      "pic_str": "109951165289539859",
+      "pic": 109951165289539860
+      },
+      "dt": 316815,
+      "h": {
+      "br": 320000,
+      "fid": 0,
+      "size": 12674925,
+      "vd": -58064
+      },
+      "m": {
+      "br": 192000,
+      "fid": 0,
+      "size": 7604973,
+      "vd": -55490
+      },
+      "l": {
+      "br": 128000,
+      "fid": 0,
+      "size": 5069997,
+      "vd": -54047
+      },
+      "a": null,
+      "cd": "01",
+      "no": 1,
+      "rtUrl": null,
+      "ftype": 0,
+      "rtUrls": [],
+      "djId": 0,
+      "copyright": 0,
+      "s_id": 0,
+      "mark": 270336,
+      "originCoverType": 0,
+      "single": 0,
+      "noCopyrightRcmd": null,
+      "rtype": 0,
+      "mv": 0,
+      "rurl": null,
+      "mst": 9,
+      "cp": 1416880,
+      "publishTime": 0
+    },
+    {
       name: "RAPSTAR",
       id: 1469628663,
       pst: 0,
@@ -303,6 +481,7 @@ const defaultState = Map({
       cp: 1372818,
       publishTime: 0,
     },
+   
   ],
   currentSongIndex: 0,
   currentSong: {},

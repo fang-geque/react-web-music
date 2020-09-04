@@ -1,9 +1,16 @@
-import React, { memo } from 'react'
+import React, { memo } from 'react';
 
-export default memo(function HYAlbum() {
+import FGQHotAlbum from './c-cpns/hot-album';
+import FGQTopAlbum from './c-cpns/top-album';
+import {
+  AblumWrapper
+} from './style';
+
+export default memo(function FGQAlbum() {
   return (
-    <div>
-      <h2>HYAlbum</h2>
-    </div>
+    <AblumWrapper className="wrap-v2">
+      <FGQHotAlbum/>
+      <FGQTopAlbum/>
+    </AblumWrapper>
   )
 })

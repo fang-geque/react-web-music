@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { getTops } from "./store/actionCreators";
 
 import FGQTopRanking from "./c-cpns/top-ranking";
+import FGQRankingHeader from './c-cpns/ranking-header';
+import FGQRankingList from './c-cpns/ranking-list';
 
 import {
   RankingWrapper,
@@ -25,7 +27,10 @@ export default memo(function FGQRanking() {
       <RankingLeft>
         <FGQTopRanking/>
       </RankingLeft>
-     
+      <RankingRight>
+        <FGQRankingHeader/>
+        <FGQRankingList/>
+      </RankingRight>
     </RankingWrapper>
   )
 })
