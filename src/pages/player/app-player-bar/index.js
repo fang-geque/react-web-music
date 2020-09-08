@@ -50,7 +50,7 @@ export default memo(function FGQAppPlayerBar() {
   // other hooks
   const audioRef = useRef();
   useEffect(() => {
-    dispatch(getSongDetailAction(465921195));
+    dispatch(getSongDetailAction(1388366084));
   }, [dispatch]);
   useEffect(() => {
     audioRef.current.src = getPlaySong(currentSong.id);

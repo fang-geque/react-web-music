@@ -26,8 +26,8 @@ export default memo(function FGQHotAlbum() {
       <div className="album-list">
         {
           hotAlbums.slice(0, 10).map((item, index) => {
-            return <FGQAlbumCover size={"130px"} 
-                                 width={"153px"} 
+            return <FGQAlbumCover size={"130"} 
+                                 width={"153"} 
                                  bgp={"-845px"}
                                  key={item.id} 
                                  info={item}/>

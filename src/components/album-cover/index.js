@@ -6,7 +6,7 @@ import { AlbumWrapper } from './style'
 export default memo(function FGQAlbumCover(props) {
   // state and props
   const {info, size = 130, width = 153, bgp= "-845px"} = props;
-
+  console.log(props)
   return (
     <AlbumWrapper size={size} width={width} bgp={bgp}>
       <div className="album-image">

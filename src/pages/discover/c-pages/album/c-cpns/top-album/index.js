@@ -35,8 +35,8 @@ export default memo(function FGQTopAlbum() {
       <div className="album-list">
         {
           topAlbums.map((item, index) => {
-            return <FGQAlbumCover size={"130px"} 
-                                 width={"153px"} 
+            return <FGQAlbumCover size={"130"} 
+                                 width={"153"} 
                                  bgp={"-845px"}
                                  key={item.id} 
                                  info={item}/>
